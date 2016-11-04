@@ -110,7 +110,6 @@ public class WebPageFragment extends Fragment {
     }
 
     public interface UrlListener {
-        // TODO: Update argument type and name
         void updateURL(String url);
         void toggledJS(boolean js);
     }
