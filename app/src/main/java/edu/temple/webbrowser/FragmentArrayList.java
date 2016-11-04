@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 /**
  * Created by Ben on 11/3/2016.
+* Class used to navigate through a list of WebBrowserFragment tabs
+ * Left as a list of Fragments for reuse
  */
 
 public class FragmentArrayList {

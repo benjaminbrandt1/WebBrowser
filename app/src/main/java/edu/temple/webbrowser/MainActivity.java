@@ -29,15 +29,15 @@ public class MainActivity extends AppCompatActivity implements WebPageFragment.U
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Get data if started by intent
         Uri data = getIntent().getData();
-
+        //Load a blank browser fragment
         fragments = new FragmentArrayList();
         fragments.add(WebPageFragment.newInstance());
-
         replaceFragment(fragments.get());
 
 
-
+        //Set URL EditText so that pressing enter acts like pressing GO
         urlField = (EditText)findViewById(R.id.URL);
         urlField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements WebPageFragment.U
                 return false;
             }
         });
+        //Initialize GO Button
         goButton = (Button)findViewById(R.id.go_button);
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,12 +61,14 @@ public class MainActivity extends AppCompatActivity implements WebPageFragment.U
             }
         });
 
+        //Load webpage if started by intent
         if(data != null) {
             String url = data.toString();
             ((WebPageFragment)fragments.get()).goTo(url);
         }
     }
 
+    //Method for displaying the selected fragment
     private void replaceFragment(Fragment fragment){
         FragmentManager fm = getFragmentManager();
         fm.beginTransaction()
@@ -136,11 +139,13 @@ public class MainActivity extends AppCompatActivity implements WebPageFragment.U
         urlField.setText("");
     }
 
+    //WebFragment calls this to tell Main that the URL has changed
     @Override
     public void updateURL(String url) {
         urlField.setText(url);
     }
 
+    //Automatically hide the keyboard when go is pressed
     private void hideKeyboard(){
         try {
             InputMethodManager inputManager = (InputMethodManager)
@@ -152,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements WebPageFragment.U
 
         }
     }
-
+    //WebFragment calls this to tell Main whether Javascript is enabled or not
     @Override
     public void toggledJS(boolean js){
         if(js){

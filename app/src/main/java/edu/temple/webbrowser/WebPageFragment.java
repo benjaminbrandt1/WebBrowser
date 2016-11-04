@@ -1,19 +1,14 @@
 package edu.temple.webbrowser;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -51,15 +46,18 @@ public class WebPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        //Get the layout
         View v = inflater.inflate(R.layout.fragment_web_page, container, false);
+        //Set a WebViewClient to handle the WebView
         MyWebViewClient client = new MyWebViewClient();
         webView = (WebView)v.findViewById(R.id.webView);
         webView.setWebViewClient(client);
+        //Re-load the page if a site was previously displayed
         if(stored_url != null){
             webView.loadUrl(stored_url);
             mListener.updateURL(stored_url);
         }
-        Log.d("onCreateView", "YO THE WEBVIEW IS NOT NULL");
+        //Log.d("onCreateView", "YO THE WEBVIEW IS NOT NULL");
         // Inflate the layout for this fragment
         return v;
     }
@@ -82,22 +80,26 @@ public class WebPageFragment extends Fragment {
         mListener = null;
     }
 
+    //MainActivity calls this to navigate to a URL in the WebView
     public void goTo(String url){
         stored_url = url;
         Log.d("URL", stored_url);
+        //Make sure that a protocol is chosen; if not, append one
         try{
             new URL(stored_url);
         } catch (MalformedURLException e){
             stored_url = "http://" + stored_url;
         }
         if(webView == null){
-            Log.d("NullView", "Web View Is Null Yo");
+            //webView was null when app started by intent - onCreateView not being called - fixed now??
+            //Log.d("NullView", "Web View Is Null Yo");
         } else {
             webView.loadUrl(stored_url);
             mListener.updateURL(stored_url);
         }
     }
 
+    //Enable and disable Javascript based on user input in MainAvtivity
     public void toggleJS(){
         if(javaScriptEnabled){
             javaScriptEnabled = false;
@@ -120,6 +122,7 @@ public class WebPageFragment extends Fragment {
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             //super.shouldOverrideUrlLoading(view, url);
             stored_url = url;
+            //Update the URL EditText when the URL is fixed (i.e. protocol appended)
             mListener.updateURL(stored_url);
             return false;
         }
