@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_back"
+        android:icon="@mipmap/ic_back_button"
+        app:showAsAction="always"
+        android:title="@string/back"/>
+
+    <item android:id="@+id/action_next"
+        android:title="@string/next"
+        android:icon="@mipmap/ic_next_button"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/action_new"
+        android:title="@string/newTab"
+        android:icon="@mipmap/ic_new_button"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/action_javascript_toggle"
+        android:title="@string/js_toggle"
+        android:icon="@mipmap/ic_javascript_toggle"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_close_tab"
+        android:title="@string/close_tab"
+        android:icon="@mipmap/ic_close_tab"
+        app:showAsAction="never"/>
+
+</menu>

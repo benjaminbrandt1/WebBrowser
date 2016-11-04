@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">WebBrowser</string>
+    <string name="go">Go</string>
+    <string name="url_hint">Enter URL and press go</string>
+    <string name="back">back button</string>
+    <string name="next">next button</string>
+    <string name="newTab">new button</string>
+    <string name="js_toggle">Toggle Javascript</string>
+    <string name="js_enabled">Javascript enabled for this tab</string>
+    <string name="js_disabled">Javascript disabled for this tab</string>
+    <string name="close_tab">Close Tab</string>
+</resources>
