@@ -83,7 +83,7 @@ public class WebPageFragment extends Fragment {
     //MainActivity calls this to navigate to a URL in the WebView
     public void goTo(String url){
         stored_url = url;
-        Log.d("URL", stored_url);
+        //Log.d("URL", stored_url);
         //Make sure that a protocol is chosen; if not, append one
         try{
             new URL(stored_url);
@@ -107,7 +107,7 @@ public class WebPageFragment extends Fragment {
             javaScriptEnabled = true;
         }
         webView.getSettings().setJavaScriptEnabled(javaScriptEnabled);
-        goTo(stored_url);
+        //goTo(stored_url);
         mListener.toggledJS(javaScriptEnabled);
     }
 
