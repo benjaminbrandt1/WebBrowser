@@ -4,11 +4,16 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -17,6 +22,9 @@ import java.net.URL;
 public class WebPageFragment extends Fragment {
     private WebView webView;
     private String stored_url;
+    private EditText urlField;
+    private String url;
+    private Button goButton;
     private boolean javaScriptEnabled;
 
 
@@ -48,14 +56,38 @@ public class WebPageFragment extends Fragment {
 
         //Get the layout
         View v = inflater.inflate(R.layout.fragment_web_page, container, false);
+
+        //Set URL EditText so that pressing enter acts like pressing GO
+        urlField = (EditText)v.findViewById(R.id.URL);
+        urlField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_GO){
+                    goButton.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
+        //Initialize GO Button
+        goButton = (Button)v.findViewById(R.id.go_button);
+        goButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                url = urlField.getText().toString();
+                goTo(url);
+                mListener.hideKeyboard();
+
+            }
+        });
+
         //Set a WebViewClient to handle the WebView
         MyWebViewClient client = new MyWebViewClient();
         webView = (WebView)v.findViewById(R.id.webView);
         webView.setWebViewClient(client);
         //Re-load the page if a site was previously displayed
         if(stored_url != null){
-            webView.loadUrl(stored_url);
-            mListener.updateURL(stored_url);
+            goTo(stored_url);
         }
         //Log.d("onCreateView", "YO THE WEBVIEW IS NOT NULL");
         // Inflate the layout for this fragment
@@ -95,7 +127,7 @@ public class WebPageFragment extends Fragment {
             //Log.d("NullView", "Web View Is Null Yo");
         } else {
             webView.loadUrl(stored_url);
-            mListener.updateURL(stored_url);
+            urlField.setText(stored_url);
         }
     }
 
@@ -112,8 +144,9 @@ public class WebPageFragment extends Fragment {
     }
 
     public interface UrlListener {
-        void updateURL(String url);
+        //void updateURL(String url);
         void toggledJS(boolean js);
+        void hideKeyboard();
     }
 
     private class MyWebViewClient extends WebViewClient {
@@ -123,7 +156,7 @@ public class WebPageFragment extends Fragment {
             //super.shouldOverrideUrlLoading(view, url);
             stored_url = url;
             //Update the URL EditText when the URL is fixed (i.e. protocol appended)
-            mListener.updateURL(stored_url);
+            urlField.setText(stored_url);
             return false;
         }
     }

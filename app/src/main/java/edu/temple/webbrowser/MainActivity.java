@@ -18,10 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements WebPageFragment.UrlListener {
-    private EditText urlField;
-    private String url;
+
     private FragmentArrayList fragments;
-    private Button goButton;
+
 
 
     @Override
@@ -37,29 +36,7 @@ public class MainActivity extends AppCompatActivity implements WebPageFragment.U
         replaceFragment(fragments.get());
 
 
-        //Set URL EditText so that pressing enter acts like pressing GO
-        urlField = (EditText)findViewById(R.id.URL);
-        urlField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_GO){
-                    goButton.performClick();
-                    return true;
-                }
-                return false;
-            }
-        });
-        //Initialize GO Button
-        goButton = (Button)findViewById(R.id.go_button);
-        goButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                url = urlField.getText().toString();
-                ((WebPageFragment)fragments.get()).goTo(url);
-                hideKeyboard();
 
-            }
-        });
 
         //Load webpage if started by intent
         if(data != null) {
@@ -91,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements WebPageFragment.U
             case R.id.action_back:
                 Fragment f = fragments.getPrevious();
                 if(f != null) {
-                    urlField.setText("");
                     replaceFragment(f);
                 } else {
                     Toast.makeText(MainActivity.this, "No Previous Tabs", Toast.LENGTH_SHORT).show();
@@ -101,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements WebPageFragment.U
             case R.id.action_next:
                 Fragment f2 = fragments.getNext();
                 if(f2 != null) {
-                    urlField.setText("");
                     replaceFragment(f2);
                 } else {
                     Toast.makeText(MainActivity.this, "No Further Tabs", Toast.LENGTH_SHORT).show();
@@ -136,17 +111,18 @@ public class MainActivity extends AppCompatActivity implements WebPageFragment.U
     public void loadNewFragment(){
         fragments.add(WebPageFragment.newInstance());
         replaceFragment(fragments.get());
-        urlField.setText("");
+        //urlField.setText("");
     }
 
     //WebFragment calls this to tell Main that the URL has changed
-    @Override
+   /* @Override
     public void updateURL(String url) {
         urlField.setText(url);
-    }
+    }*/
 
     //Automatically hide the keyboard when go is pressed
-    private void hideKeyboard(){
+    @Override
+    public void hideKeyboard(){
         try {
             InputMethodManager inputManager = (InputMethodManager)
                     MainActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WebBrowser</string>
+    <string name="app_name">Web Browser</string>
     <string name="go">Go</string>
     <string name="url_hint">Enter URL and press go</string>
     <string name="back">back button</string>

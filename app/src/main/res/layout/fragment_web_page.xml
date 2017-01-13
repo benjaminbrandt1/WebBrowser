@@ -5,6 +5,26 @@
     tools:context="edu.temple.webbrowser.WebPageFragment"
     android:orientation="vertical">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText android:layout_height="50dp"
+            android:hint = "@string/url_hint"
+            android:id = "@+id/URL"
+            android:singleLine="true"
+            android:imeOptions="actionGo"
+            android:layout_width="335dp" />
+
+        <Button
+            android:text="@string/go"
+            android:id="@+id/go_button"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+    </RelativeLayout>
+
     <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
